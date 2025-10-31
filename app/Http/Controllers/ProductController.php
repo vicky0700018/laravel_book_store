@@ -15,7 +15,7 @@ class ProductController extends Controller
     }
     public function product_store_form()
     {
-        
+
         return view('product_store');
     }
     public function product_store(Request $request)
@@ -45,8 +45,23 @@ class ProductController extends Controller
         // Redirect with message
         return redirect()->back()->with('success', 'Product added successfully!');
     }
+    public function SoftDeleteproduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete(); // This will perform soft delete
+        return redirect()->back()->with('success', 'Product deleted successfully!');
+    }
+    // Show edit form
+public function productedit($id)
+{
+    $product = Product::findOrFail($id);
+    return view('product_edit', compact('product'));
+}
 
-     // public function product_store(Request $request)
+// Handle update request
+
+
+    // public function product_store(Request $request)
     // {
     //     // Create validator instance
     //     $validator = Validator::make(
@@ -121,6 +136,7 @@ class ProductController extends Controller
     //     // Step 5: Redirect
     //     return redirect()->back()->with('success', 'Product added successfully!');
     // }
+
 
     //First we created variable and assined all data of any model
     //Then We Have to view over blade file in the written prodect list is my HTML blade file and pass the varible in the view
