@@ -14,6 +14,7 @@
 
     <div class="container mt-5">
         <h1 class="text-center mb-4">📦 Product List</h1>
+        <a class="btn btn-info" href="{{ route('product.store.form') }}">Create Product</a>
 
         <table class="table table-bordered table-striped shadow">
             <thead class="table-dark">
@@ -24,23 +25,32 @@
                     <th>Price (₹)</th>
                     <th>Description</th>
                     <th>Created At</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $vicky)
+                @foreach ($products as $tridev)
                 <tr>
-                    <td>{{ $vicky->id }}</td>
-                    <td>{{ $vicky->product_name }}</td>
+                    <td>{{ $tridev->id }}</td>
+                    <td>{{ $tridev->product_name }}</td>
                     <td>
-                        @if($vicky->product_image)
-                        <img src="{{ asset('images/' . $vicky->product_image) }}" alt="Image" width="80">
+                        @if($tridev->product_image)
+                        <img src="{{ asset('images/' . $tridev->product_image) }}" alt="Image" width="80">
                         @else
                         <span class="text-muted">No image</span>
                         @endif
                     </td>
-                    <td>{{ number_format($vicky->product_price, 2) }}</td>
-                    <td>{{ $vicky->product_description }}</td>
-                    <td>{{ $vicky->created_at->format('d M Y') }}</td>
+                    <td>{{ number_format($tridev->product_price, 2) }}</td>
+                    <td>{{ $tridev->product_description }}</td>
+                    <td>{{ $tridev->created_at->format('d M Y') }}</td>
+                    <td>
+                        <form action="{{ route('product.destroy', $tridev->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                        </form>
+                        <a class="" href="{{ route('product.edit', $tridev->id) }}">Edit</a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
